@@ -1,0 +1,27 @@
+<link
+  href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+  rel="stylesheet"
+  id="bootstrap-css"
+/>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<section class="get-in-touch">
+  <h1 class="title">Randomiser</h1>
+  <form
+    #Saverate="ngForm"
+    (ngSubmit)="submitForm(Saverate.value)"
+    ngNativeValidate
+    class="contact-form row"
+  >
+    <div class="form-field col-lg-12">
+      <input id="name" class="input-text js-input" type="text" required />
+      <label class="label" for="name">Number</label>
+    </div>
+    <div class="form-field col-lg-12">
+      <input class="submit-btn" type="submit" value="Submit" />
+    </div>
+    <p>{{timeLeft}} Seconds..</p> 
+  </form>
+</section>
