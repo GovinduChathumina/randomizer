@@ -13,11 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        $store_procedure = "DROP PROCEDURE IF EXISTS `check_duplicate`;
-        CREATE PROCEDURE `check_duplicate` (IN idx int)
-        BEGIN
-        SELECT * FROM code where unique_code = idx;
-        END;";
+        $store_procedure = "BEGIN 
+        IF(SELECT COUNT(*) FROM code WHERE code.unique_code= idx)>0 THEN
+            BEGIN
+            SELECT 1;
+            END;
+        ELSE
+            BEGIN
+            INSERT INTO code(code.unique_code) VALUES(idx);
+            END;
+        END IF;
+        END";
 
         \DB::unprepared($store_procedure);
     }

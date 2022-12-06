@@ -20,4 +20,4 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix'=>'api/v1'], function() use($router){
     $router->post('/create_codes', 'CodeController@create');
-    });
+});
