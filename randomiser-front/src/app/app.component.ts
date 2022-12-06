@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { timer } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
+import Swal from 'sweetalert2'
 import { RandomiserService } from './service/randomiser.service';
 
 @Component({
@@ -9,43 +10,55 @@ import { RandomiserService } from './service/randomiser.service';
 })
 export class AppComponent implements OnInit {
   title = 'randomiser';
-  timeLeft: number = 0;
-  interval: any;
+  timer = 0; // seconds
+  intervalId = 0;
   subscribeTimer: any;
+  public number:any;
+   Severate: any;
 
   constructor(private randomiserService: RandomiserService) {}
 
-  oberserableTimer() {
-    const source = timer(1000, 1);
-    const abc = source.subscribe(val => {
-      console.log(val, '-');
-      this.subscribeTimer = this.timeLeft + val;
+  ngOnInit(): void {
+    this.Severate = new FormGroup({
+      number: new FormControl('')
     });
   }
-
-  startTimer() {
-    this.interval = setInterval(() => {
-      if(this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
-        this.timeLeft = 0;
-      }
-    },1000)
+  get hours() {
+    return Math.floor(this.timer / 3600);
   }
 
-  pauseTimer() {
-    clearInterval(this.interval);
+  get minutes() {
+    return Math.floor(this.timer / 60) % 60;
   }
 
-  ngOnInit(): void {}
+  get seconds() {
+    return this.timer % 60;
+  }
+
+  start() {
+    if (!this.intervalId)
+      this.intervalId = window.setInterval(() => this.timer++, 1000);
+  }
+
+  stop() {
+    if (this.intervalId) {
+      console.log(this.intervalId);
+      clearInterval(this.intervalId);
+      this.intervalId = 0;
+    }
+  }
 
   public submitForm(data: any) {
-    this.startTimer();
+    this.start();
     this.randomiserService
       .submitRandomiser(data.number)
       .subscribe((data: any) => {
-        console.log(data);
-        this.pauseTimer();
+        Swal.fire({
+          title: this.hours+":"+this.minutes+":"+this.seconds,
+          text: 'Unique codes genarated successfully',
+          icon: 'success',
+        })
+        this.stop();
       });
   }
 }

@@ -10,18 +10,17 @@
 <section class="get-in-touch">
   <h1 class="title">Randomiser</h1>
   <form
-    #Saverate="ngForm"
-    (ngSubmit)="submitForm(Saverate.value)"
-    ngNativeValidate
+   [formGroup]="Severate" name="Sevarate"
     class="contact-form row"
   >
     <div class="form-field col-lg-12">
-      <input id="name" class="input-text js-input" type="text" required />
-      <label class="label" for="name">Number</label>
+      <input id="number" name="number" class="input-text js-input" formControlName="number"
+      type="number" required />
+      <label class="label" for="number">Number</label>
     </div>
     <div class="form-field col-lg-12">
-      <input class="submit-btn" type="submit" value="Submit" />
+      <input class="submit-btn" type="submit" value="Submit" (click)="submitForm(Severate.value)"/>
     </div>
-    <p>{{timeLeft}} Seconds..</p> 
+    <p>{{ hours }}:{{ minutes }}:{{ seconds }}</p>
   </form>
 </section>
