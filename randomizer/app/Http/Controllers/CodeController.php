@@ -17,22 +17,17 @@ class CodeController extends Controller
      */
     public function create(Request $request)
     {
+        set_time_limit(300);
         for ($x = 1; $x <= $request->number; $x++) {
             $idx = $this->random_alphanumeric_string();
             try{
                 $checkDuplicate = DB::select("CALL check_duplicate('$idx')");
-                $newCode = new Code;
-                    if(!$checkDuplicate){
-                        $newCode->unique_code = $idx;
-                        $newCode->save();
-                    }
-
             }catch(e){
                 return response()->json("something went wrong !");
             }
         }
 
-        return response()->json($newCode);
+        return response()->json("success");
     }
 
     /**
