@@ -17,16 +17,22 @@ class CodeController extends Controller
      */
     public function create(Request $request)
     {
-        set_time_limit(300);
+        $uniqueId = [];
         for ($x = 1; $x <= $request->number; $x++) {
-            $idx = $this->random_alphanumeric_string();
             try{
-                $checkDuplicate = DB::select("CALL check_duplicate('$idx')");
+                $idx = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,7);
+                $uniqueId[]=[
+                    'unique_code'=> $idx
+                ];
             }catch(e){
                 return response()->json("something went wrong !");
             }
         }
-
+            $chunks = array_chunk($uniqueId,(($request->number)/5));
+            foreach($chunks as $chunk){
+                Code::insert($chunk);
+            }
+        
         return response()->json("success");
     }
 
