@@ -35,14 +35,4 @@ class CodeController extends Controller
         
         return response()->json("success");
     }
-
-    /**
-     * Create random codes
-     *
-     * @return void
-     */
-    function random_alphanumeric_string() {
-        $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        return substr(str_shuffle($chars), 0, 7);
-    }
 }
